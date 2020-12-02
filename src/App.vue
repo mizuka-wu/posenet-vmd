@@ -1,28 +1,25 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <VideoPlayer />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import posenet from './posenet'
+import VideoPlayer from './components/VideoPlayer'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    VideoPlayer
+  },
+  async created() {
+    const net = await posenet()
+    console.log(net)
+//     const pose = await net.estimateSinglePose(image, {
+//   flipHorizontal: false
+// });
+// console.log(pose)
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
