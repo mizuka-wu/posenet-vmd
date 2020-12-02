@@ -1,9 +1,6 @@
 <template>
   <div id="app">
-    <VideoPlayer
-      :pose="currentPose"
-      @loadeddata="calculate"
-    />
+    <VideoPlayer :pose="currentPose" @loadeddata="calculate" />
     <MmdPlayer :pose="currentPose" />
   </div>
 </template>
@@ -19,7 +16,7 @@ export default {
     VideoPlayer,
     MmdPlayer
   },
-  data() {
+  data () {
     return {
       net: null,
       currentPose: null,
@@ -27,11 +24,11 @@ export default {
     }
   },
   methods: {
-    async calculate(image) {
+    async calculate (image) {
       if (!this.net) return
-    const pose = await this.net.estimateSinglePose(image, {
-  flipHorizontal: false
-})
+      const pose = await this.net.estimateSinglePose(image, {
+        flipHorizontal: false
+      })
       this.poses.push(pose)
       this.currentPose = getAdjacentKeyPoints(pose)
       if (this.poses.length > 100) {
@@ -39,7 +36,7 @@ export default {
       }
     }
   },
-  async created() {
+  async created () {
     const net = await posenet()
     this.net = net
   }
