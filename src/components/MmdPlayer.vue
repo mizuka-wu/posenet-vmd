@@ -52,8 +52,6 @@ export default {
       this.mesh = mmd.mesh
       this.mesh.position.y = -10
       this.scene.add(this.mesh)
-      console.log(this.animationHelper)
-      console.log(mmd)
       this.animationHelper.add(this.mesh, {
         animation: mmd.animation,
         physics: true

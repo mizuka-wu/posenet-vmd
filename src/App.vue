@@ -2,6 +2,7 @@
   <div id="app">
     <VideoPlayer :pose="currentPose" @loadeddata="calculate" />
     <MmdPlayer :pose="currentPose" />
+    <input type="file" @change="change" />
   </div>
 </template>
 
@@ -24,6 +25,14 @@ export default {
     }
   },
   methods: {
+    change (e) {
+      const file = e.target.files[0]
+      const reader = new FileReader()
+      reader.onload = function () {
+        console.log(reader.result)
+      }
+      reader.readAsBinaryString(file)
+    },
     async calculate (image) {
       if (!this.net) return
       const pose = await this.net.estimateSinglePose(image, {
