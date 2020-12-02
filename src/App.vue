@@ -4,17 +4,20 @@
       :pose="currentPose"
       @loadeddata="calculate"
     />
+    <MmdPlayer :pose="currentPose" />
   </div>
 </template>
 
 <script>
 import posenet, { getAdjacentKeyPoints } from './posenet'
 import VideoPlayer from './components/VideoPlayer'
+import MmdPlayer from './components/MmdPlayer'
 
 export default {
   name: 'App',
   components: {
-    VideoPlayer
+    VideoPlayer,
+    MmdPlayer
   },
   data() {
     return {
