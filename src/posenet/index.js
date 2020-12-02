@@ -15,3 +15,10 @@ export default async function () {
 
     return net
 }
+
+/**
+ * 获取相关联的点，绘制骨骼
+ */
+export function getAdjacentKeyPoints(pose) {
+    return Posenet.getAdjacentKeyPoints(pose.keypoints)
+}

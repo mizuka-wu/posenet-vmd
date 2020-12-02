@@ -1,23 +1,46 @@
 <template>
-  <div>
-    <button @click="openUserMedia">使用摄像头</button>
-    <input
-      @change="uploadVideo"
-      accept="video/mp4"
-      ref="input"
-      type="file"
-    />
+  <div class="player">
+    <div class="control">
+      <button @click="openUserMedia">使用摄像头</button>
+      <input
+        @change="uploadVideo"
+        accept="video/mp4"
+        ref="input"
+        type="file"
+      />
+    </div>
     <video
+      loop
       ref="video"
       style="display: none;"
     />
-    <canvas ref="canvas"></canvas>
+    <canvas ref="pose"></canvas>
+    <canvas
+      ref="canvas"
+      style="z-index: -1;"
+    ></canvas>
   </div>
 </template>
 
 <script>
+function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
+  ctx.beginPath();
+  ctx.moveTo(ax * scale, ay * scale);
+  ctx.lineTo(bx * scale, by * scale);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = color;
+  ctx.stroke();
+}
+function toTuple({y, x}) {
+  return [y, x];
+}
 export default {
     name: 'VideoPlayer',
+    props: {
+        pose: {
+            type: Array
+        }
+    },
     data() {
         return {
             camera: null
@@ -29,12 +52,13 @@ export default {
          */
         record() {
             const { video, canvas } = this.$refs
-            if (video.ended) {
+            if (!video || !canvas || video.ended) {
                 return
             }
 
             const context = canvas.getContext("2d");
             context.drawImage(video, 0, 0, canvas.width, canvas.height)
+            this.$emit('loadeddata', canvas)
 
             requestAnimationFrame(() => {
                 this.record()
@@ -95,6 +119,40 @@ export default {
                 alert('未开启摄像头')
             })
         }
-    }
+    },
+    watch: {
+        pose(pose) {
+            const poseCanvas = this.$refs.pose
+            if (!poseCanvas) {
+                return
+            }
+            const context = poseCanvas.getContext('2d')
+                    context.clearRect(0,0,poseCanvas.width,poseCanvas.height);
+            if (!pose) {
+                return
+            }
+            // 画骨骼
+  pose.forEach((keypoints) => {
+    drawSegment(
+        toTuple(keypoints[0].position), toTuple(keypoints[1].position), '#67C23A',
+        1, context);
+  });
+        }
+    },
 }
 </script>
+<style scoped>
+.player {
+  display: flex;
+  flex-direction: column;
+  height: 520px;
+  position: relative;
+}
+canvas,
+video {
+  width: 960px;
+  height: 480px;
+  position: absolute;
+  bottom: 0;
+}
+</style>

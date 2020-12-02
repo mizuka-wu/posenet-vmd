@@ -1,11 +1,14 @@
 <template>
   <div id="app">
-    <VideoPlayer />
+    <VideoPlayer
+      :pose="currentPose"
+      @loadeddata="calculate"
+    />
   </div>
 </template>
 
 <script>
-import posenet from './posenet'
+import posenet, { getAdjacentKeyPoints } from './posenet'
 import VideoPlayer from './components/VideoPlayer'
 
 export default {
@@ -13,13 +16,29 @@ export default {
   components: {
     VideoPlayer
   },
+  data() {
+    return {
+      net: null,
+      currentPose: null,
+      poses: []
+    }
+  },
+  methods: {
+    async calculate(image) {
+      if (!this.net) return
+    const pose = await this.net.estimateSinglePose(image, {
+  flipHorizontal: false
+})
+      this.poses.push(pose)
+      this.currentPose = getAdjacentKeyPoints(pose)
+      if (this.poses.length > 100) {
+        this.poses.splice(0)
+      }
+    }
+  },
   async created() {
     const net = await posenet()
-    console.log(net)
-//     const pose = await net.estimateSinglePose(image, {
-//   flipHorizontal: false
-// });
-// console.log(pose)
+    this.net = net
   }
 }
 </script>
