@@ -6,7 +6,6 @@
 import * as THREE from 'three';
 import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader';
 				const modelFile = '/models/mmd/miku/miku_v2.pmd';
-                const vmdFiles = [ '/models/mmd/vmds/wavefile_v2.vmd' ];
 export default {
     data() {
         return {
@@ -24,7 +23,7 @@ export default {
     },
     mounted() {
     this.camera = new THREE.PerspectiveCamera( 70, 960 / 480, 0.01, 100 );
-    this.camera.position.z = 20;
+    this.camera.position.z = 30;
  
     this.scene = new THREE.Scene();
     this.scene.color = '#ffffff'
@@ -40,10 +39,9 @@ export default {
      */
     const loader = new MMDLoader()
 
-    loader.loadWithAnimation(modelFile, vmdFiles, (mmd) => {
-        this.mesh = mmd.mesh
-        this.mesh.position.y = -10;
-        this.mesh.position.x = 0;
+    loader.load(modelFile, (mesh) => {
+        this.mesh = mesh
+        this.mesh.position.y = -10
 
         this.scene.add(this.mesh)
     })
