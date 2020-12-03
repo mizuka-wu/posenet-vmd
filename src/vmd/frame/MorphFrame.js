@@ -1,9 +1,8 @@
 export default class MorphFrame {
   /**
-     * @param {ArrayBuffer} buffer
-     */
-  constructor (buffer) {
-    console.log(buffer)
-    return this
+   * @param {import('../BufferStream').default} stream
+   */
+  constructor (stream) {
+    return stream.readBuffer(23, false)
   }
 }

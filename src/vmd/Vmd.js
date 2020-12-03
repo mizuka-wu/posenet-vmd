@@ -1,8 +1,10 @@
 // eslint-disable-next-line
 import { MODEL_NAME_LENGTH, VERSION_BUFFER_LENGTH, UNIT, VERSION } from './const'
 import BufferStream from './BufferStream'
-// eslint-disable-next-line
 import BoneFrame from './frame/BoneFrame'
+import CameraFrame from './frame/CameraFrame'
+import LightFrame from './frame/LightFrame'
+import MorphFrame from './frame/MorphFrame'
 
 export default class Vmd {
   /**
@@ -33,7 +35,14 @@ export default class Vmd {
     if (buffer) {
       const stream = new BufferStream(buffer)
       this.version = stream.readBuffer(VERSION_BUFFER_LENGTH)
-      this.modelName = stream.readBuffer(MODEL_NAME_LENGTH)
+      this.modelName = stream.readBuffer(MODEL_NAME_LENGTH[this.version])
+      // 需要按照顺序生成
+      this.boneFrames = stream.readArray(BoneFrame)
+      this.morphFrames = stream.readArray(MorphFrame)
+      this.cameraFrames = stream.readArray(CameraFrame)
+      this.lightFrames = stream.readArray(LightFrame)
+
+      console.log(stream)
     }
   }
 }

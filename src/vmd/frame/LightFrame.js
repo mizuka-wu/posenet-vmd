@@ -1,9 +1,8 @@
 export default class LightFrame {
   /**
-   * @param {ArrayBuffer} buffer
+   * @param {import('../BufferStream').default} stream
    */
-  constructor (buffer) {
-    console.log(buffer)
-    return this
+  constructor (stream) {
+    return stream.readBuffer(28, false)
   }
 }

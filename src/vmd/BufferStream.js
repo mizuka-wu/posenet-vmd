@@ -1,17 +1,36 @@
 import { readFloat, readInt, buffer2string } from './util'
 export default class BufferStream {
+  /**
+   * arrayBuffer
+   * @param {ArrayBuffer} [buffer]
+   */
   constructor (buffer) {
     this.buffer = buffer || new ArrayBuffer(0)
     this.index = 0
   }
 
   /**
-   *
-   * @param {} Constructor
+   * 获取数组
+   * @param {*} Constructor
+   * @returns {*[]}
    */
-  readArray (Constructor) {}
+  readArray (Constructor) {
+    const totalNumber = this.readInt()
+    const result = []
+
+    for (let i = 0; i < totalNumber; i++) {
+      const data = new Constructor(this)
+      result.push(data)
+    }
+
+    return result
+  }
 
   readBuffer (length = 0, readAsString = true) {
+    if (typeof length !== 'number') {
+      throw new Error('readBuffer failed, place check arg')
+    }
+
     if (length <= 0) {
       return ''
     }
@@ -26,12 +45,12 @@ export default class BufferStream {
   }
 
   readInt () {
-    const buffer = this.readBuffer(4)
+    const buffer = this.readBuffer(4, false)
     return readInt(buffer)
   }
 
   readFloat () {
-    const buffer = this.readBuffer(4)
+    const buffer = this.readBuffer(4, false)
     return readFloat(buffer)
   }
 
@@ -45,5 +64,9 @@ export default class BufferStream {
     const view = new DataView(buffer, 0)
     const method = `get${Unit.name.replace('Array', '')}`
     return view[method]()
+  }
+
+  get restBytes () {
+    return this.buffer.byteLength - this.index
   }
 }
