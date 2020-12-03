@@ -8,6 +8,8 @@ export const VERSION = {
   V2: 'Vocaloid Motion Data 0002'
 }
 
+export const VERSION_BUFFER_LENGTH = 30
+
 export const MODEL_NAME_LENGTH = {
   [VERSION.V1]: 10,
   [VERSION.V2]: 20

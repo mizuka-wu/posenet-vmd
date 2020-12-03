@@ -1,5 +1,5 @@
 import { buffer2string } from './util'
-import { MODEL_NAME_LENGTH, UNIT } from './const'
+import { MODEL_NAME_LENGTH, UNIT, VERSION_BUFFER_LENGTH } from './const'
 /**
  * 解析vmd
  */
@@ -11,12 +11,12 @@ export default class Vmd {
     this._buffer = value
     this._bufferIndex = 0
 
-    this.version = this.readBuffer(30) // 版本
-    this.name = this.readBuffer(MODEL_NAME_LENGTH[this.version], false)
+    this.version = this.readBuffer(VERSION_BUFFER_LENGTH) // 版本
+    this.name = this.readBuffer(MODEL_NAME_LENGTH[this.version])
 
     // 骨骼
-    this.frameTime = this.readBufferByUnit(UNIT.FRAME_TIME)[0]
-    this.frames = Array.from(new Array(this.frameTime)).map(() => this.readBuffer(111, false))
+    const frameTime = this.readBufferByUnit(UNIT.FRAME_TIME)[0]
+    this.frames = Array.from(new Array(frameTime)).map(() => this.readBuffer(111, false))
     // this.frames = Array.from(new Array(this.frameTime)).map(() => {
     //   const frame = {}
 
@@ -31,16 +31,16 @@ export default class Vmd {
     // })
 
     // 表情
-    this.morphKeyFrameTime = this.readBufferByUnit(Uint32Array)[0]
-    this.morphKeyFrames = Array.from(new Array(this.morphKeyFrameTime)).map(() => this.readBuffer(23, false))
+    const morphKeyFrameTime = this.readBufferByUnit(Uint32Array)[0]
+    this.morphKeyFrames = Array.from(new Array(morphKeyFrameTime)).map(() => this.readBuffer(23, false))
 
     // 镜头
-    this.cameraKeyFrameTime = this.readBufferByUnit(Uint32Array)[0]
-    this.cameraKeyFrames = Array.from(new Array(this.cameraKeyFrameTime)).map(() => this.readBuffer(61, false))
+    const cameraKeyFrameTime = this.readBufferByUnit(Uint32Array)[0]
+    this.cameraKeyFrames = Array.from(new Array(cameraKeyFrameTime)).map(() => this.readBuffer(61, false))
 
     // 光线
-    this.lightKeyFrameTime = this.readBufferByUnit(Uint32Array)[0]
-    this.lightKeyFrames = Array.from(new Array(this.lightKeyFrameTime)).map(() => this.readBuffer(28, false))
+    const lightKeyFrameTime = this.readBufferByUnit(Uint32Array)[0]
+    this.lightKeyFrames = Array.from(new Array(lightKeyFrameTime)).map(() => this.readBuffer(28, false))
   }
 
   readBuffer (length = 0, readAsString = true) {
