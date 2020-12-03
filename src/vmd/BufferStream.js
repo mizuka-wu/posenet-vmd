@@ -26,9 +26,9 @@ export default class BufferStream {
     return result
   }
 
-  readBuffer (length = 0, readAsString = true) {
+  readBytes (length = 0, readAsString = true) {
     if (typeof length !== 'number') {
-      throw new Error('readBuffer failed, place check arg')
+      throw new Error('readBytes failed, place check arg')
     }
 
     if (length <= 0) {
@@ -45,12 +45,12 @@ export default class BufferStream {
   }
 
   readInt () {
-    const buffer = this.readBuffer(4, false)
+    const buffer = this.readBytes(4, false)
     return readInt(buffer)
   }
 
   readFloat () {
-    const buffer = this.readBuffer(4, false)
+    const buffer = this.readBytes(4, false)
     return readFloat(buffer)
   }
 
@@ -59,8 +59,8 @@ export default class BufferStream {
    * @param { Uint16ArrayConstructor | Uint32ArrayConstructor | Uint8ArrayConstructor | Float32ArrayConstructor | Float64ArrayConstructor } Unit
    * @returns { number }
    */
-  readBufferByUnit (Unit) {
-    const buffer = this.readBuffer(Unit.BYTES_PER_ELEMENT, false)
+  readBytesByUnit (Unit) {
+    const buffer = this.readBytes(Unit.BYTES_PER_ELEMENT, false)
     const view = new DataView(buffer, 0)
     const method = `get${Unit.name.replace('Array', '')}`
     return view[method]()

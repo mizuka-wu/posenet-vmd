@@ -34,8 +34,8 @@ export default class Vmd {
      */
     if (buffer) {
       const stream = new BufferStream(buffer)
-      this.version = stream.readBuffer(VERSION_BUFFER_LENGTH)
-      this.modelName = stream.readBuffer(MODEL_NAME_LENGTH[this.version])
+      this.version = stream.readBytes(VERSION_BUFFER_LENGTH)
+      this.modelName = stream.readBytes(MODEL_NAME_LENGTH[this.version])
       // 需要按照顺序生成
       this.boneFrames = stream.readArray(BoneFrame)
       this.morphFrames = stream.readArray(MorphFrame)

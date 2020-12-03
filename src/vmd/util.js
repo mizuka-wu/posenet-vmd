@@ -20,5 +20,5 @@ export function readInt (buffer) {
 }
 
 export function readFloat (buffer) {
-  return Buffer.from(buffer).readFloatLE()
+  return Buffer.from(buffer).readFloatLE(0)
 }
