@@ -48,9 +48,6 @@ export default class Vmd {
       return ''
     }
 
-    // const buffer = this._buffer.slice(0, length)
-    // this._buffer = this._buffer.slice(length)
-
     const buffer = this._buffer.slice(this._bufferIndex, this._bufferIndex + length)
     this._bufferIndex = length + this._bufferIndex
     return readAsString ? buffer2string(buffer) : buffer
