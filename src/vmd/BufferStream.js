@@ -54,7 +54,7 @@ export default class BufferStream {
    * @returns number
    */
   readInt () {
-    return this.readBytesByType(TYPE.uint32_t)
+    return this.readByType(TYPE.uint32_t)
   }
 
   /**
@@ -62,7 +62,7 @@ export default class BufferStream {
    * @returns number
    */
   readFloat () {
-    return this.readBytesByType(TYPE.float)
+    return this.readByType(TYPE.float)
   }
 
   /**
@@ -82,7 +82,7 @@ export default class BufferStream {
    * @param {boolean} [littleEndian]
    * @returns { number }
    */
-  readBytesByType (Type, offset = 0, littleEndian = true) {
+  readByType (Type, offset = 0, littleEndian = true) {
     if (!Type) {
       throw new Error('Type is not define')
     }
@@ -100,7 +100,7 @@ export default class BufferStream {
    * @param {boolean} [littleEndian]
    * @returns {number[]}
    */
-  readArrayBytesByType (length = 0, Type = TYPE.uint32_t, offset = 0, littleEndian = true) {
+  readArrayByType (length = 0, Type = TYPE.uint32_t, offset = 0, littleEndian = true) {
     const list = []
 
     if (length < 0) {
@@ -108,7 +108,7 @@ export default class BufferStream {
     }
 
     for (let i = 0; i < length; i++) {
-      list.push(this.readBytesByType(Type, offset, littleEndian))
+      list.push(this.readByType(Type, offset, littleEndian))
     }
 
     return list

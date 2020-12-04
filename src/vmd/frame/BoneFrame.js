@@ -49,12 +49,12 @@ export default class BoneFrame {
     if (stream) {
       this.boneName = stream.readString(15)
       this.frameTime = stream.readInt()
-      this.translation = stream.readArrayBytesByType(3, TYPE.float)
-      this.rotation = stream.readArrayBytesByType(4, TYPE.float)
-      this.curveX = stream.readArrayBytesByType(16, TYPE.uint8_t)
-      this.curveY = stream.readArrayBytesByType(16, TYPE.uint8_t)
-      this.curveZ = stream.readArrayBytesByType(16, TYPE.uint8_t)
-      this.curveR = stream.readArrayBytesByType(16, TYPE.uint8_t)
+      this.translation = stream.readArrayByType(3, TYPE.float)
+      this.rotation = stream.readArrayByType(4, TYPE.float)
+      this.curveX = stream.readArrayByType(16, TYPE.uint8_t)
+      this.curveY = stream.readArrayByType(16, TYPE.uint8_t)
+      this.curveZ = stream.readArrayByType(16, TYPE.uint8_t)
+      this.curveR = stream.readArrayByType(16, TYPE.uint8_t)
     }
   }
 }

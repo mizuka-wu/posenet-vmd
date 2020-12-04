@@ -22,8 +22,8 @@ export default class LightFrame {
 
     if (stream) {
       this.frameTime = stream.readInt()
-      this.rgb = stream.readArrayBytesByType(3, TYPE.float)
-      this.direction = stream.readArrayBytesByType(3, TYPE.float)
+      this.rgb = stream.readArrayByType(3, TYPE.float)
+      this.direction = stream.readArrayByType(3, TYPE.float)
     }
   }
 }

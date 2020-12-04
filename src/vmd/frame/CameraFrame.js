@@ -44,11 +44,11 @@ export default class CameraFrame {
     if (stream) {
       this.frameTime = stream.readInt()
       this.distance = stream.readFloat()
-      this.position = stream.readArrayBytesByType(3, TYPE.float)
-      this.rotation = stream.readArrayBytesByType(3, TYPE.float)
-      this.curve = stream.readArrayBytesByType(24, TYPE.uint8_t)
+      this.position = stream.readArrayByType(3, TYPE.float)
+      this.rotation = stream.readArrayByType(3, TYPE.float)
+      this.curve = stream.readArrayByType(24, TYPE.uint8_t)
       this.viewAngle = stream.readInt()
-      this.orthographic = stream.readBytesByType(TYPE.uint8_t)
+      this.orthographic = stream.readByType(TYPE.uint8_t)
     }
   }
 }
