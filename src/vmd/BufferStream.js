@@ -120,4 +120,12 @@ export default class BufferStream {
   get restBytes () {
     return this.buffer.byteLength - this.index
   }
+
+  /**
+   * 清除保存的数据流
+   */
+  close () {
+    this.buffer = null
+    this.index = 0
+  }
 }

@@ -30,19 +30,23 @@ export default class Vmd {
     this.lightFrames = [] // 光线关键帧
 
     /**
-     * 自动生成
+     * 从传入的文件流解析格式，生成配置信息，需要按照顺序读取buffer
      */
     if (buffer) {
       const stream = new BufferStream(buffer)
+
       this.version = stream.readString(VERSION_BUFFER_LENGTH)
       this.modelName = stream.readString(MODEL_NAME_LENGTH[this.version])
-      // 需要按照顺序生成
+      // 骨骼
       this.boneFrames = stream.readArray(BoneFrame)
+      // 表情
       this.morphFrames = stream.readArray(MorphFrame)
+      // 摄像机
       this.cameraFrames = stream.readArray(CameraFrame)
+      // 光线
       this.lightFrames = stream.readArray(LightFrame)
 
-      console.log(stream)
+      stream.close()
     }
   }
 }
