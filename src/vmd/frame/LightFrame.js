@@ -1,3 +1,4 @@
+import { TYPE } from '../const'
 export default class LightFrame {
   /**
    * @param {import('../BufferStream').default} stream
@@ -5,21 +6,24 @@ export default class LightFrame {
   constructor (stream) {
     /**
      * 关键帧时间 FrameTime
+     * uint32_t
      */
     this.frameTime = 0
     /**
      * RGB颜色空间 color.rgb
+     * float*3
      */
     this.rgb = [0, 0, 0]
     /**
      * xyz投射方向 Direction.xyz
+     * float*3
      */
     this.direction = [0, 0, 0]
 
     if (stream) {
       this.frameTime = stream.readInt()
-      this.rgb = this.rgb.map(() => stream.readFloat())
-      this.direction = this.direction.map(() => stream.readFloat())
+      this.rgb = stream.readArrayBytesByType(3, TYPE.float)
+      this.direction = stream.readArrayBytesByType(3, TYPE.float)
     }
   }
 }

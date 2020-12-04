@@ -1,3 +1,5 @@
+import { TYPE } from '../const'
+import { generateArray } from '../util'
 export default class CameraFrame {
   /**
    * @param {import('../BufferStream').default} stream
@@ -5,41 +7,48 @@ export default class CameraFrame {
   constructor (stream) {
     /**
      * 关键帧时间 FrameTime
+     * uint32_t
      */
     this.frameTime = 0
     /**
      * 距离 Distance
+     * float
      */
     this.distance = 0
     /**
      * x,y,z空间坐标 Position.xyz
+     * float*3
      */
-    this.position = [0, 0, 0]
+    this.position = generateArray(3)
     /**
      * 旋转角度（弧度制） Rotation.xyz
+     * float*3
      */
-    this.rotation = [0, 0, 0]
+    this.rotation = generateArray(3)
     /**
      * 相机曲线 Curve
+     * uint8_t*24
      */
-    this.curve = Array.from(new Array(24)).map(() => 0)
+    this.curve = generateArray(24)
     /**
      * 镜头FOV角度 ViewAngle
+     * float
      */
     this.viewAngle = 0
     /**
      * Orthographic相机
+     * uint8_t
      */
     this.orthographic = 0
 
     if (stream) {
       this.frameTime = stream.readInt()
       this.distance = stream.readFloat()
-      this.position = this.position.map(() => stream.readFloat())
-      this.rotation = this.rotation.map(() => stream.readFloat())
-      this.curve = this.curve.map(() => stream.readBytes(1))
+      this.position = stream.readArrayBytesByType(3, TYPE.float)
+      this.rotation = stream.readArrayBytesByType(3, TYPE.float)
+      this.curve = stream.readArrayBytesByType(24, TYPE.uint8_t)
       this.viewAngle = stream.readInt()
-      this.orthographic = stream.readBytes(1)
+      this.orthographic = stream.readBytesByType(TYPE.uint8_t)
     }
   }
 }

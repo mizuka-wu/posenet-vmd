@@ -1,3 +1,4 @@
+
 export default class MorphFrame {
   /**
    * @param {import('../BufferStream').default} stream
@@ -5,14 +6,17 @@ export default class MorphFrame {
   constructor (stream) {
     /**
      * 表情名称 MorphName
+     * byte*15(ShiftJIS)
      */
     this.morphName = ''
     /**
      * 关键帧时间 FrameTime
+     * uint32_t
      */
     this.frameTime = 0
     /**
      * 程度 Weight
+     * float
      */
     this.weight = 0
 
