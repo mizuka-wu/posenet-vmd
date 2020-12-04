@@ -49,4 +49,31 @@ export default class Vmd {
       stream.close()
     }
   }
+
+  get timeline () {
+    const maxFrameTime = this.boneFrames.reduce((_maxFrameTime, { frameTime }) => Math.max(_maxFrameTime, frameTime), 0)
+
+    // frame类别的keys
+    const frameTypeKeys = Object.keys(this).filter(key => key.includes('Frames'))
+
+    const timeline = []
+
+    for (let frameTime = 0; frameTime < maxFrameTime; frameTime++) {
+      /**
+       * 生成对应的frame数据，根据frameTime过滤一次
+       */
+      const frame = frameTypeKeys.reduce((_frame, key) => {
+        /**
+         * @type { BoneFrame[] | MorphFrame[] | CameraFrame[] | LightFrame[] }
+         */
+        const typedFrames = this[key]
+        _frame[key] = typedFrames.filter((typedFrame) => typedFrame.frameTime === frameTime)
+        return _frame
+      }, { frameTime })
+
+      timeline.push(frame)
+    }
+
+    return timeline
+  }
 }
