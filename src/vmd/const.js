@@ -17,3 +17,14 @@ export const MODEL_NAME_LENGTH = {
 
 export const INT_LENGTH = 4
 export const FLOAT_LENGTH = 4
+
+export const TYPE = {
+  int8_t: Int8Array,
+  uint8_t: Uint8Array,
+  int16_t: Int16Array,
+  uint16_t: Uint16Array,
+  int32_t: Int32Array,
+  uint32_t: Uint32Array,
+  float: Float32Array,
+  double: Float64Array
+}

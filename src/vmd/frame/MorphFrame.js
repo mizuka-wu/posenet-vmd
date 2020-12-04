@@ -17,7 +17,7 @@ export default class MorphFrame {
     this.weight = 0
 
     if (stream) {
-      this.morphName = stream.readBytes(15)
+      this.morphName = stream.readString(15)
       this.frameTime = stream.readInt()
       this.weight = stream.readFloat()
     }

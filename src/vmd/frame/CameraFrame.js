@@ -37,9 +37,9 @@ export default class CameraFrame {
       this.distance = stream.readFloat()
       this.position = this.position.map(() => stream.readFloat())
       this.rotation = this.rotation.map(() => stream.readFloat())
-      this.curve = this.curve.map(() => stream.readBytes(1), false)
+      this.curve = this.curve.map(() => stream.readBytes(1))
       this.viewAngle = stream.readInt()
-      this.orthographic = stream.readBytes(1, false)
+      this.orthographic = stream.readBytes(1)
     }
   }
 }

@@ -1,4 +1,5 @@
-import { readFloat, readInt, buffer2string } from './util'
+import { buffer2string } from './util'
+import { TYPE } from './const'
 export default class BufferStream {
   /**
    * arrayBuffer
@@ -26,7 +27,11 @@ export default class BufferStream {
     return result
   }
 
-  readBytes (length = 0, readAsString = true) {
+  /**
+   * 读取指定字节的数据
+   * @param {*} length
+   */
+  readBytes (length = 0) {
     if (typeof length !== 'number') {
       throw new Error('readBytes failed, place check arg')
     }
@@ -36,36 +41,55 @@ export default class BufferStream {
     }
 
     if (this.index + length > this.buffer.byteLength) {
-      throw new Error('Stackoverflow', this.index + length, this.buffer.byteLength)
+      throw new Error(`Stackoverflow ${this.index + length} / ${this.buffer.byteLength}`)
     }
 
     const buffer = this.buffer.slice(this.index, this.index + length)
     this.index = length + this.index
-    return readAsString ? buffer2string(buffer) : buffer
+    return buffer
   }
 
+  /**
+   * 读取uint32_t
+   * @returns number
+   */
   readInt () {
-    const buffer = this.readBytes(4, false)
-    return readInt(buffer)
+    return this.readBytesByType(TYPE.uint32_t)
   }
 
+  /**
+   * 读取float
+   * @returns number
+   */
   readFloat () {
-    const buffer = this.readBytes(4, false)
-    return readFloat(buffer)
+    return this.readBytesByType(TYPE.float)
+  }
+
+  /**
+   * 读取文字
+   * @param {number} [length]
+   * @returns {string}
+   */
+  readString (length = 0) {
+    const buffer = this.readBytes(length)
+    return buffer2string(buffer)
   }
 
   /**
    * 读取并格式化为具体类型
-   * @param { Uint16ArrayConstructor | Uint32ArrayConstructor | Uint8ArrayConstructor | Float32ArrayConstructor | Float64ArrayConstructor } Unit
+   * @param { Uint16ArrayConstructor | Uint32ArrayConstructor | Uint8ArrayConstructor | Float32ArrayConstructor | Float64ArrayConstructor } Type
    * @returns { number }
    */
-  readBytesByUnit (Unit) {
-    const buffer = this.readBytes(Unit.BYTES_PER_ELEMENT, false)
+  readBytesByType (Type, offset = 0, littleEndian = true) {
+    const buffer = this.readBytes(Type.BYTES_PER_ELEMENT, false)
     const view = new DataView(buffer, 0)
-    const method = `get${Unit.name.replace('Array', '')}`
-    return view[method]()
+    const method = `get${Type.name.replace('Array', '')}`
+    return view[method](offset, littleEndian)
   }
 
+  /**
+   * 获取剩余的bytes
+   */
   get restBytes () {
     return this.buffer.byteLength - this.index
   }

@@ -14,11 +14,3 @@ export function buffer2string (arrayBuffer) {
 export function string2buffer (string) {
   return encoder.encode(string)
 }
-
-export function readInt (buffer) {
-  return Buffer.from(buffer).readUIntLE()
-}
-
-export function readFloat (buffer) {
-  return Buffer.from(buffer).readFloatLE(0)
-}

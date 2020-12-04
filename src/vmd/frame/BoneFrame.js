@@ -37,7 +37,7 @@ export default class BoneFrame {
     this.curveR = [0, 0, 0, 0]
 
     if (stream) {
-      this.boneName = stream.readBytes(15)
+      this.boneName = stream.readString(15)
       this.frameTime = stream.readInt()
       this.translation = this.translation.map(() => stream.readFloat())
       this.rotation = this.rotation.map(() => stream.readFloat())
