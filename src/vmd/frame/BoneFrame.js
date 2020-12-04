@@ -1,3 +1,5 @@
+import { TYPE } from '../const'
+import { generateArray } from '../util'
 export default class BoneFrame {
   /**
    * @param {import('../BufferStream').default} [stream]
@@ -5,46 +7,54 @@ export default class BoneFrame {
   constructor (stream) {
     /**
      * 骨骼名称 BoneName
+     * byte*15(ShiftJIS)
      */
     this.boneName = ''
     /**
      * 关键帧时间 FrameTime
+     * uint32_t
      */
     this.frameTime = 0
     /**
      * x,y,z空间坐标 Translation.xyz
+     * float*3
      */
-    this.translation = [0, 0, 0]
+    this.translation = generateArray(3)
     /**
      * 旋转四元数x,y,z,w Rotation.xyzw
+     * float*4
      */
-    this.rotation = [0, 0, 0, 0]
+    this.rotation = generateArray(4)
     /**
      * 补间曲线x的坐标 XCurve
+     * uint8_t*16
      */
-    this.curveX = [0, 0, 0, 0]
+    this.curveX = generateArray(16)
     /**
      * 补间曲线y的坐标 YCurve
+     * uint8_t*16
      */
-    this.curveY = [0, 0, 0, 0]
+    this.curveY = generateArray(16)
     /**
      * 补间曲线z的坐标 ZCurve
+     * uint8_t*16
      */
-    this.curveZ = [0, 0, 0, 0]
+    this.curveZ = generateArray(16)
     /**
      * 补间曲线旋转的坐标 RCurve
+     * uint8_t*16
      */
-    this.curveR = [0, 0, 0, 0]
+    this.curveR = generateArray(16)
 
     if (stream) {
       this.boneName = stream.readString(15)
       this.frameTime = stream.readInt()
-      this.translation = this.translation.map(() => stream.readFloat())
-      this.rotation = this.rotation.map(() => stream.readFloat())
-      this.curveX = this.curveX.map(() => stream.readFloat())
-      this.curveY = this.curveY.map(() => stream.readFloat())
-      this.curveZ = this.curveZ.map(() => stream.readFloat())
-      this.curveR = this.curveR.map(() => stream.readFloat())
+      this.translation = stream.readArrayBytesByType(3, TYPE.float)
+      this.rotation = stream.readArrayBytesByType(4, TYPE.float)
+      this.curveX = stream.readArrayBytesByType(16, TYPE.uint8_t)
+      this.curveY = stream.readArrayBytesByType(16, TYPE.uint8_t)
+      this.curveZ = stream.readArrayBytesByType(16, TYPE.uint8_t)
+      this.curveR = stream.readArrayBytesByType(16, TYPE.uint8_t)
     }
   }
 }

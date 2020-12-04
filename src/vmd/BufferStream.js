@@ -78,13 +78,40 @@ export default class BufferStream {
   /**
    * 读取并格式化为具体类型
    * @param { Uint16ArrayConstructor | Uint32ArrayConstructor | Uint8ArrayConstructor | Float32ArrayConstructor | Float64ArrayConstructor } Type
+   * @param {number} [offset]
+   * @param {boolean} [littleEndian]
    * @returns { number }
    */
   readBytesByType (Type, offset = 0, littleEndian = true) {
+    if (!Type) {
+      throw new Error('Type is not define')
+    }
     const buffer = this.readBytes(Type.BYTES_PER_ELEMENT, false)
     const view = new DataView(buffer, 0)
     const method = `get${Type.name.replace('Array', '')}`
     return view[method](offset, littleEndian)
+  }
+
+  /**
+   * 返回一个Typed后的数组
+   * @param {number} [length]
+   * @param { Uint16ArrayConstructor | Uint32ArrayConstructor | Uint8ArrayConstructor | Float32ArrayConstructor | Float64ArrayConstructor } [Type]
+   * @param {number} [offset]
+   * @param {boolean} [littleEndian]
+   * @returns {number[]}
+   */
+  readArrayBytesByType (length = 0, Type = TYPE.uint32_t, offset = 0, littleEndian = true) {
+    const list = []
+
+    if (length < 0) {
+      throw new Error('Invalid array length')
+    }
+
+    for (let i = 0; i < length; i++) {
+      list.push(this.readBytesByType(Type, offset, littleEndian))
+    }
+
+    return list
   }
 
   /**
