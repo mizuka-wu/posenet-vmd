@@ -104,6 +104,6 @@ export default class Vmd {
     stream.writeArrayByType(this.lightFrames)
 
     const arrayBuffer = stream.getArrayBuffer()
-    console.log(arrayBuffer.byteLength)
+    return arrayBuffer
   }
 }
