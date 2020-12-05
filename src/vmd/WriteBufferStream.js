@@ -11,17 +11,15 @@ export default class WriteBufferStream {
 
   /**
    * 写入数组
-   * @param {*} Constructor
+   * @param {*[]} array TypedFrames
    * @returns {WriteBufferStream}
    */
-  writeArray (array, Constructor) {
+  writeArray (array) {
     const totalNumber = array.length
-    this.bufferList.push()
-
-    // for (let i = 0; i < totalNumber; i++) {
-    //   const data = new Constructor(this)
-    //   result.push(data)
-    // }
+    this.writeInt(totalNumber)
+    array.forEach(typedFrame => {
+      typedFrame.writeBuffer(this)
+    })
 
     return this
   }
