@@ -66,6 +66,12 @@ export default class WriteBufferStream {
     const textBuffer = string2buffer(text)
     const buffer = new Uint8Array(length)
     buffer.set(textBuffer)
+
+    // 这里模拟一下真实的乱码情况，在boneName这一类场景下，乱码一般是0,253,253这样
+    if (length === 15) {
+      buffer.fill(253, textBuffer.length + 1)
+    }
+
     this.bufferList.push(buffer.buffer)
     return this
   }
