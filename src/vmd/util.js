@@ -1,6 +1,5 @@
-import { CODE } from './const'
-const encoder = new TextEncoder(CODE)
-const decoder = new TextDecoder(CODE)
+const encoder = new TextEncoder('shift_jis')
+const decoder = new TextDecoder('shift_jis')
 const asciiEncoder = new TextEncoder('ascii')
 const asciiDecoder = new TextDecoder('ascii')
 
@@ -23,7 +22,12 @@ export function generateArray (length, initValue = 0) {
  */
 export function buffer2string (arrayBuffer, isAscii = false) {
   const _decoder = isAscii ? asciiDecoder : decoder
-  return _decoder.decode(arrayBuffer)
+  const text = _decoder.decode(arrayBuffer)
+
+  // const encodedBuffer = string2buffer(text).buffer
+  // console.log(arrayBuffer, encodedBuffer)
+
+  return text
 }
 
 export function string2buffer (string, isAscii = false) {

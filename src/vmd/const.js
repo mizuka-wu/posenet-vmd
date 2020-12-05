@@ -1,7 +1,6 @@
 /**
  * 一些配置
  */
-export const CODE = 'shift_jis'
 
 export const VERSION = {
   V1: 'Vocaloid Motion Data file',
