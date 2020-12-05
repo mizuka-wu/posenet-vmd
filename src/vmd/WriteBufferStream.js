@@ -123,7 +123,7 @@ export default class WriteBufferStream {
 
     for (const buffer of this.bufferList) {
       result.set(new Uint8Array(buffer), offset)
-      offset += buffer.length
+      offset += buffer.byteLength
     }
 
     const buffer = result.buffer
