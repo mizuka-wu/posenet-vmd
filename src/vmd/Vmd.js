@@ -48,8 +48,6 @@ export default class Vmd {
       // 光线
       this.lightFrames = stream.readArrayByConstructor(LightFrame)
 
-      console.log(stream.buffer.byteLength)
-
       stream.close()
     }
   }
