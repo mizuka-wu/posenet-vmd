@@ -1,7 +1,7 @@
 import { TYPE } from '../const'
 export default class LightFrame {
   /**
-   * @param {import('../BufferStream').default} stream
+   * @param {import('../ReadBufferStream').default} stream
    */
   constructor (stream) {
     /**

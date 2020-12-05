@@ -1,6 +1,6 @@
 import { buffer2string } from './util'
 import { TYPE } from './const'
-export default class BufferStream {
+export default class ReadBufferStream {
   /**
    * arrayBuffer
    * @param {ArrayBuffer} [buffer]
@@ -86,7 +86,7 @@ export default class BufferStream {
     if (!Type) {
       throw new Error('Type is not define')
     }
-    const buffer = this.readBytes(Type.BYTES_PER_ELEMENT, false)
+    const buffer = this.readBytes(Type.BYTES_PER_ELEMENT)
     const view = new DataView(buffer, 0)
     const method = `get${Type.name.replace('Array', '')}`
     return view[method](offset, littleEndian)

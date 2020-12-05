@@ -8,8 +8,10 @@ fetch('/models/mmd/vmds/test.vmd', {
   .then(res => res.blob())
   .then(blob => blob.arrayBuffer())
   .then((data) => {
-    window.vmd = new Vmd(data)
-    console.log(window.vmd)
+    const vmd = new Vmd(data)
+    console.log(vmd)
+    window.vmd = vmd
+    vmd.write()
   })
 
 Vue.config.productionTip = false

@@ -2,7 +2,7 @@ import { TYPE } from '../const'
 import { generateArray } from '../util'
 export default class CameraFrame {
   /**
-   * @param {import('../BufferStream').default} stream
+   * @param {import('../ReadBufferStream').default} stream
    */
   constructor (stream) {
     /**

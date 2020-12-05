@@ -1,6 +1,7 @@
 // eslint-disable-next-line
 import { MODEL_NAME_LENGTH, VERSION_BUFFER_LENGTH, UNIT, VERSION } from './const'
-import BufferStream from './BufferStream'
+import ReadBufferStream from './ReadBufferStream'
+import WriteBufferStream from './WriteBufferStream'
 import BoneFrame from './frame/BoneFrame'
 import CameraFrame from './frame/CameraFrame'
 import LightFrame from './frame/LightFrame'
@@ -33,7 +34,7 @@ export default class Vmd {
      * 从传入的文件流解析格式，生成配置信息，需要按照顺序读取buffer
      */
     if (buffer) {
-      const stream = new BufferStream(buffer)
+      const stream = new ReadBufferStream(buffer)
 
       this.version = stream.readString(VERSION_BUFFER_LENGTH)
       this.modelName = stream.readString(MODEL_NAME_LENGTH[this.version])
@@ -50,6 +51,9 @@ export default class Vmd {
     }
   }
 
+  /**
+   * 时间线
+   */
   get timeline () {
     const maxFrameTime = this.boneFrames.reduce((_maxFrameTime, { frameTime }) => Math.max(_maxFrameTime, frameTime), 0)
 
@@ -75,5 +79,19 @@ export default class Vmd {
     }
 
     return timeline
+  }
+
+  /**
+   * 将内部状态导出
+   * @returns {ArrayBuffer}
+   */
+  write () {
+    const steam = new WriteBufferStream()
+
+    steam.writeString(this.version, VERSION_BUFFER_LENGTH)
+    steam.writeString(this.modelName, MODEL_NAME_LENGTH[this.version])
+
+    const arrayBuffer = steam.getArrayBuffer()
+    console.log(arrayBuffer)
   }
 }
