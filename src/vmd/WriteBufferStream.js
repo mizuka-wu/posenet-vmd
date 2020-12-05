@@ -91,27 +91,23 @@ export default class WriteBufferStream {
     return this
   }
 
-  // /**
-  //  * 返回一个Typed后的数组
-  //  * @param {number} [length]
-  //  * @param { Uint16ArrayConstructor | Uint32ArrayConstructor | Uint8ArrayConstructor | Float32ArrayConstructor | Float64ArrayConstructor } [Type]
-  //  * @param {number} [offset]
-  //  * @param {boolean} [littleEndian]
-  //  * @returns {number[]}
-  //  */
-  // readArrayByType (length = 0, Type = TYPE.uint32_t, offset = 0, littleEndian = true) {
-  //   const list = []
-
-  //   if (length < 0) {
-  //     throw new Error('Invalid array length')
-  //   }
-
-  //   for (let i = 0; i < length; i++) {
-  //     list.push(this.readByType(Type, offset, littleEndian))
-  //   }
-
-  //   return list
-  // }
+  /**
+   * 将一个数组写入
+   * @param {number[]} value
+   * @param { Uint16ArrayConstructor | Uint32ArrayConstructor | Uint8ArrayConstructor | Float32ArrayConstructor | Float64ArrayConstructor } [Type]
+   * @param {number} [offset]
+   * @param {boolean} [littleEndian]
+   * @returns {WriteBufferStream}
+   */
+  writeArrayByType (value, Type = TYPE.uint32_t, offset = 0, littleEndian = true) {
+    if (!Array.isArray(value)) {
+      throw new Error('value is not array!')
+    }
+    value.forEach(number => {
+      this.writeByType(number, Type, offset, littleEndian)
+    })
+    return this
+  }
 
   /**
    * 清除保存的数据流
