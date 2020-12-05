@@ -1,7 +1,7 @@
-const SHJIS_UTF_LABEL = 'shift_jis'
-
-const encoder = new TextEncoder(SHJIS_UTF_LABEL)
-const decoder = new TextDecoder(SHJIS_UTF_LABEL)
+/**
+ * 内部日语用的翻译器
+ */
+import { encode, decode } from 'shiftjis'
 
 /**
  * 生成一个Array
@@ -21,17 +21,16 @@ export function generateArray (length, initValue = 0) {
  * @param {ArrayBuffer} arrayBuffer
  */
 export function buffer2string (arrayBuffer) {
-  /**
-   * 这里因为长度的问题，其实buffer里填充用的，需要过滤掉
-   */
   const uint8Array = new Uint8Array(arrayBuffer)
+
+  // 这里因为长度的问题，其实buffer里填充用的，需要过滤掉填充字符
   const emptyFillIndex = uint8Array.indexOf(0)
-  const buffer = arrayBuffer.slice(0, emptyFillIndex === -1 ? undefined : emptyFillIndex)
-  const text = decoder.decode(buffer)
+  const buffer = uint8Array.slice(0, emptyFillIndex === -1 ? undefined : emptyFillIndex)
+  const text = decode(buffer)
 
   return text
 }
 
-export function string2buffer (string) {
-  return encoder.encode(string)
+export function string2buffer (text) {
+  return encode(text)
 }

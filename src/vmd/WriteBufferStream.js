@@ -65,11 +65,6 @@ export default class WriteBufferStream {
   writeString (text = '', length = 0) {
     const textBuffer = string2buffer(text)
     const buffer = new Uint8Array(length)
-    if (textBuffer.length > buffer.length) {
-      // console.log(text)
-      this.bufferList.push(buffer.buffer)
-      return this
-    }
     buffer.set(textBuffer)
     this.bufferList.push(buffer.buffer)
     return this
