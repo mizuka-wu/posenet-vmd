@@ -36,7 +36,8 @@ export default class Vmd {
     if (buffer) {
       const stream = new ReadBufferStream(buffer)
 
-      this.version = stream.readString(VERSION_BUFFER_LENGTH, true)
+      this.version = stream.readString(VERSION_BUFFER_LENGTH, true).replace(/\0/g, '')
+
       this.modelName = stream.readString(MODEL_NAME_LENGTH[this.version])
       // 骨骼
       this.boneFrames = stream.readArrayByConstructor(BoneFrame)

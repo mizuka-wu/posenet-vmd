@@ -28,5 +28,5 @@ export function buffer2string (arrayBuffer, isAscii = false) {
 
 export function string2buffer (string, isAscii = false) {
   const _encoder = isAscii ? asciiEncoder : encoder
-  return _encoder.decode(string)
+  return _encoder.encode(string)
 }
