@@ -36,7 +36,7 @@ export default class Vmd {
     if (buffer) {
       const stream = new ReadBufferStream(buffer)
 
-      this.version = stream.readString(VERSION_BUFFER_LENGTH, true).replace(/\0/g, '')
+      this.version = stream.readString(VERSION_BUFFER_LENGTH)
 
       this.modelName = stream.readString(MODEL_NAME_LENGTH[this.version])
       // 骨骼
@@ -91,7 +91,7 @@ export default class Vmd {
   write () {
     const stream = new WriteBufferStream()
 
-    stream.writeString(this.version, VERSION_BUFFER_LENGTH, true)
+    stream.writeString(this.version, VERSION_BUFFER_LENGTH)
     stream.writeString(this.modelName, MODEL_NAME_LENGTH[this.version])
 
     // 骨骼

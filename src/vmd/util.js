@@ -1,7 +1,7 @@
-const encoder = new TextEncoder('shift_jis')
-const decoder = new TextDecoder('shift_jis')
-const asciiEncoder = new TextEncoder('ascii')
-const asciiDecoder = new TextDecoder('ascii')
+const SHJIS_UTF_LABEL = 'shift_jis'
+
+const encoder = new TextEncoder(SHJIS_UTF_LABEL)
+const decoder = new TextDecoder(SHJIS_UTF_LABEL)
 
 /**
  * 生成一个Array
@@ -20,17 +20,18 @@ export function generateArray (length, initValue = 0) {
  * buffer转string
  * @param {ArrayBuffer} arrayBuffer
  */
-export function buffer2string (arrayBuffer, isAscii = false) {
-  const _decoder = isAscii ? asciiDecoder : decoder
-  const text = _decoder.decode(arrayBuffer)
-
-  // const encodedBuffer = string2buffer(text).buffer
-  // console.log(arrayBuffer, encodedBuffer)
+export function buffer2string (arrayBuffer) {
+  /**
+   * 这里因为长度的问题，其实buffer里填充用的，需要过滤掉
+   */
+  const uint8Array = new Uint8Array(arrayBuffer)
+  const emptyFillIndex = uint8Array.indexOf(0)
+  const buffer = arrayBuffer.slice(0, emptyFillIndex === -1 ? undefined : emptyFillIndex)
+  const text = decoder.decode(buffer)
 
   return text
 }
 
-export function string2buffer (string, isAscii = false) {
-  const _encoder = isAscii ? asciiEncoder : encoder
-  return _encoder.encode(string)
+export function string2buffer (string) {
+  return encoder.encode(string)
 }
