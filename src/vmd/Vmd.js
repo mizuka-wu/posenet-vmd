@@ -39,13 +39,15 @@ export default class Vmd {
       this.version = stream.readString(VERSION_BUFFER_LENGTH)
       this.modelName = stream.readString(MODEL_NAME_LENGTH[this.version])
       // 骨骼
-      this.boneFrames = stream.readArray(BoneFrame)
+      this.boneFrames = stream.readArrayByConstructor(BoneFrame)
       // 表情
-      this.morphFrames = stream.readArray(MorphFrame)
+      this.morphFrames = stream.readArrayByConstructor(MorphFrame)
       // 摄像机
-      this.cameraFrames = stream.readArray(CameraFrame)
+      this.cameraFrames = stream.readArrayByConstructor(CameraFrame)
       // 光线
-      this.lightFrames = stream.readArray(LightFrame)
+      this.lightFrames = stream.readArrayByConstructor(LightFrame)
+
+      console.log(stream.buffer.byteLength)
 
       stream.close()
     }
@@ -86,12 +88,21 @@ export default class Vmd {
    * @returns {ArrayBuffer}
    */
   write () {
-    const steam = new WriteBufferStream()
+    const stream = new WriteBufferStream()
 
-    steam.writeString(this.version, VERSION_BUFFER_LENGTH)
-    steam.writeString(this.modelName, MODEL_NAME_LENGTH[this.version])
+    stream.writeString(this.version, VERSION_BUFFER_LENGTH)
+    stream.writeString(this.modelName, MODEL_NAME_LENGTH[this.version])
 
-    const arrayBuffer = steam.getArrayBuffer()
-    console.log(arrayBuffer)
+    // 骨骼
+    stream.writeTypedFrameArray(this.boneFrames)
+    // 表情
+    stream.writeTypedFrameArray(this.morphFrames)
+    // 摄像机
+    stream.writeTypedFrameArray(this.cameraFrames)
+    // 光线
+    stream.writeArrayByType(this.lightFrames)
+
+    const arrayBuffer = stream.getArrayBuffer()
+    console.log(arrayBuffer.byteLength)
   }
 }

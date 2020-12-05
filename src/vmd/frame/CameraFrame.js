@@ -48,7 +48,23 @@ export default class CameraFrame {
       this.rotation = stream.readArrayByType(3, TYPE.float)
       this.curve = stream.readArrayByType(24, TYPE.uint8_t)
       this.viewAngle = stream.readInt()
-      this.orthographic = stream.readByType(TYPE.uint8_t)
+      this.orthographic = stream.readInt()
     }
+  }
+
+  /**
+   * 将本身数据写入stream
+   * @param {import('../WriteBufferStream').default} stream
+   */
+  writeBuffer (stream) {
+    if (!stream) {
+      throw new Error('no stream!')
+    }
+    stream.writeInt(this.frameTime)
+    stream.writeFloat(this.distance)
+    stream.writeArrayByType(this.position, TYPE.float)
+    stream.writeArrayByType(this.rotation, TYPE.float)
+    stream.writeInt(this.viewAngle)
+    stream.writeInt(this.orthographic)
   }
 }

@@ -14,7 +14,7 @@ export default class WriteBufferStream {
    * @param {*[]} array TypedFrames
    * @returns {WriteBufferStream}
    */
-  writeArray (array) {
+  writeTypedFrameArray (array) {
     const totalNumber = array.length
     this.writeInt(totalNumber)
     array.forEach(typedFrame => {
@@ -65,6 +65,11 @@ export default class WriteBufferStream {
   writeString (text = '', length = 0) {
     const textBuffer = string2buffer(text)
     const buffer = new Uint8Array(length)
+    if (textBuffer.length > buffer.length) {
+      // console.log(text)
+      this.bufferList.push(buffer.buffer)
+      return this
+    }
     buffer.set(textBuffer)
     this.bufferList.push(buffer.buffer)
     return this
@@ -84,8 +89,8 @@ export default class WriteBufferStream {
     }
     const view = new DataView(new ArrayBuffer(Type.BYTES_PER_ELEMENT), 0)
     const method = `set${Type.name.replace('Array', '')}`
-    const buffer = view[method](offset, value, littleEndian)
-    this.bufferList.push(buffer.buffer)
+    view[method](offset, value, littleEndian)
+    this.bufferList.push(view.buffer)
     return this
   }
 
@@ -126,6 +131,10 @@ export default class WriteBufferStream {
       offset += buffer.length
     }
 
-    return result.buffer
+    const buffer = result.buffer
+
+    this.bufferList.splice(0)
+
+    return buffer
   }
 }

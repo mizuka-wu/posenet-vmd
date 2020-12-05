@@ -15,7 +15,7 @@ export default class ReadBufferStream {
    * @param {*} Constructor
    * @returns {*[]}
    */
-  readArray (Constructor) {
+  readArrayByConstructor (Constructor) {
     const totalNumber = this.readInt()
     const result = []
 

@@ -26,4 +26,17 @@ export default class LightFrame {
       this.direction = stream.readArrayByType(3, TYPE.float)
     }
   }
+
+  /**
+   * 将本身数据写入stream
+   * @param {import('../WriteBufferStream').default} stream
+   */
+  writeBuffer (stream) {
+    if (!stream) {
+      throw new Error('no stream!')
+    }
+    stream.writeInt(this.frameTime)
+    stream.writeArrayByType(this.rgb, TYPE.float)
+    stream.writeArrayByType(this.direction, TYPE.float)
+  }
 }

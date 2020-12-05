@@ -57,4 +57,22 @@ export default class BoneFrame {
       this.curveR = stream.readArrayByType(16, TYPE.uint8_t)
     }
   }
+
+  /**
+   * 将本身数据写入stream
+   * @param {import('../WriteBufferStream').default} stream
+   */
+  writeBuffer (stream) {
+    if (!stream) {
+      throw new Error('no stream!')
+    }
+    stream.writeString(this.boneName, 15)
+    stream.writeInt(this.frameTime)
+    stream.writeArrayByType(this.translation, TYPE.float)
+    stream.writeArrayByType(this.rotation, TYPE.float)
+    stream.writeArrayByType(this.curveX, TYPE.uint8_t)
+    stream.writeArrayByType(this.curveY, TYPE.uint8_t)
+    stream.writeArrayByType(this.curveZ, TYPE.uint8_t)
+    stream.writeArrayByType(this.curveR, TYPE.uint8_t)
+  }
 }

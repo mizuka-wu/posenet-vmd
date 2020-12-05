@@ -26,4 +26,17 @@ export default class MorphFrame {
       this.weight = stream.readFloat()
     }
   }
+
+  /**
+   * 将本身数据写入stream
+   * @param {import('../WriteBufferStream').default} stream
+   */
+  writeBuffer (stream) {
+    if (!stream) {
+      throw new Error('no stream!')
+    }
+    stream.writeString(this.morphName, 15)
+    stream.writeInt(this.frameTime)
+    stream.writeFloat(this.weight)
+  }
 }
