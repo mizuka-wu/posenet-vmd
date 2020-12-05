@@ -60,10 +60,11 @@ export default class WriteBufferStream {
    * 写入文字 文字默认为Uint8
    * @param {string} [text]
    * @param {number} [length]
+   * @param {boolean} [isAscii]
    * @returns {WriteBufferStream}
    */
-  writeString (text = '', length = 0) {
-    const textBuffer = string2buffer(text)
+  writeString (text = '', length = 0, isAscii) {
+    const textBuffer = string2buffer(text, isAscii)
     const buffer = new Uint8Array(length)
     if (textBuffer.length > buffer.length) {
       // console.log(text)

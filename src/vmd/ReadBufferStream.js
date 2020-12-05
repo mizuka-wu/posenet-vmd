@@ -70,9 +70,10 @@ export default class ReadBufferStream {
    * @param {number} [length]
    * @returns {string}
    */
-  readString (length = 0) {
+  readString (length = 0, isAscii = false) {
     const buffer = this.readBytes(length)
-    return buffer2string(buffer)
+
+    return buffer2string(buffer, isAscii)
   }
 
   /**

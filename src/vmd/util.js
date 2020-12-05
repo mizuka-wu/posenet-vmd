@@ -1,6 +1,8 @@
 import { CODE } from './const'
 const encoder = new TextEncoder(CODE)
 const decoder = new TextDecoder(CODE)
+const asciiEncoder = new TextEncoder('ascii')
+const asciiDecoder = new TextDecoder('ascii')
 
 /**
  * 生成一个Array
@@ -19,11 +21,12 @@ export function generateArray (length, initValue = 0) {
  * buffer转string
  * @param {ArrayBuffer} arrayBuffer
  */
-export function buffer2string (arrayBuffer) {
-  return decoder.decode(arrayBuffer)
-    .replace(/\0.*/, '')
+export function buffer2string (arrayBuffer, isAscii = false) {
+  const _decoder = isAscii ? asciiDecoder : decoder
+  return _decoder.decode(arrayBuffer)
 }
 
-export function string2buffer (string) {
-  return encoder.encode(string)
+export function string2buffer (string, isAscii = false) {
+  const _encoder = isAscii ? asciiEncoder : encoder
+  return _encoder.decode(string)
 }
