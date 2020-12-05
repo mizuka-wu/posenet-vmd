@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { string2buffer } from './util'
-import { TYPE } from './const'
+import { TYPE, VERSION } from './const'
 export default class WriteBufferStream {
   constructor () {
     /**
@@ -65,11 +65,12 @@ export default class WriteBufferStream {
   writeString (text = '', length = 0) {
     const textBuffer = string2buffer(text)
     const buffer = new Uint8Array(length)
+    buffer.fill(253, textBuffer.length + 1)
     buffer.set(textBuffer)
 
-    // 这里模拟一下真实的乱码情况，在boneName这一类场景下，乱码一般是0,253,253这样
-    if (length === 15) {
-      buffer.fill(253, textBuffer.length + 1)
+    // 只有version是靠0填充的
+    if (text === VERSION.V1 || text === VERSION.V2) {
+      buffer.fill(0, textBuffer.length)
     }
 
     this.bufferList.push(buffer.buffer)

@@ -13,16 +13,10 @@ fetch('/models/mmd/vmds/test.vmd', {
     const arrayBuffer = vmd.write()
     const url = URL.createObjectURL(new Blob([arrayBuffer]))
     window.vmdUrl = url
-    /**
-     * 对比
-     */
-    const source = new Uint8Array(data)
-    const target = new Uint8Array(arrayBuffer)
-    console.log(source, target)
+
+    new Vue({
+      render: h => h(App)
+    }).$mount('#app')
   })
 
 Vue.config.productionTip = false
-
-new Vue({
-  render: h => h(App)
-}).$mount('#app')

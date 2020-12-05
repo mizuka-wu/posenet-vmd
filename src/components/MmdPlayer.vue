@@ -8,7 +8,7 @@ import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader'
 import { MMDAnimationHelper } from 'three/examples/jsm/animation/MMDAnimationHelper.js'
 
 const modelFile = '/models/mmd/miku/miku_v2.pmd'
-const vmdFile = '/models/mmd/vmds/test.vmd'
+const vmdFile = window.vmdUrl
 const clock = new THREE.Clock()
 
 export default {
