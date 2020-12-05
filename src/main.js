@@ -9,9 +9,16 @@ fetch('/models/mmd/vmds/test.vmd', {
   .then(blob => blob.arrayBuffer())
   .then((data) => {
     const vmd = new Vmd(data)
-    console.log(vmd)
     window.vmd = vmd
-    vmd.write()
+    const arrayBuffer = vmd.write()
+    const url = URL.createObjectURL(new Blob([arrayBuffer]))
+    window.vmdUrl = url
+    /**
+     * 对比
+     */
+    const source = new Uint8Array(data)
+    const target = new Uint8Array(arrayBuffer)
+    console.log(source, target)
   })
 
 Vue.config.productionTip = false
