@@ -90,7 +90,7 @@ export default class Vmd {
   write () {
     const stream = new WriteBufferStream()
 
-    stream.writeString(this.version, VERSION_BUFFER_LENGTH)
+    stream.writeString(this.version, VERSION_BUFFER_LENGTH, true)
     stream.writeString(this.modelName, MODEL_NAME_LENGTH[this.version])
 
     // 骨骼
