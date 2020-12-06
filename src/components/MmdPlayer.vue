@@ -8,6 +8,18 @@ import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader'
 import { MMDAnimationHelper } from 'three/examples/jsm/animation/MMDAnimationHelper.js'
 
 const modelFile = '/models/mmd/miku/miku_v2.pmd'
+const vpdFiles = [
+  'models/mmd/vpds/01.vpd',
+  'models/mmd/vpds/02.vpd',
+  'models/mmd/vpds/03.vpd',
+  'models/mmd/vpds/04.vpd',
+  'models/mmd/vpds/05.vpd',
+  'models/mmd/vpds/06.vpd',
+  'models/mmd/vpds/07.vpd',
+  'models/mmd/vpds/08.vpd',
+  'models/mmd/vpds/09.vpd',
+  'models/mmd/vpds/10.vpd'
+]
 
 const clock = new THREE.Clock()
 
