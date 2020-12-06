@@ -16,8 +16,6 @@ const vpdFiles = [
   'models/mmd/vpds/05.vpd',
   'models/mmd/vpds/06.vpd',
   'models/mmd/vpds/07.vpd',
-  'models/mmd/vpds/08.vpd',
-  'models/mmd/vpds/09.vpd',
   'models/mmd/vpds/10.vpd'
 ]
 
@@ -31,7 +29,8 @@ export default {
       renderer: null,
       mesh: null,
       loader: null,
-      animationHelper: null
+      animationHelper: null,
+      poses: []
     }
   },
   methods: {
@@ -39,6 +38,18 @@ export default {
       requestAnimationFrame(this.animate)
       this.animationHelper.update(clock.getDelta())
       this.renderer.render(this.scene, this.camera)
+      this.loadPose()
+    },
+    loadPose () {
+      if (this.poses.length > 0) {
+        const index = Math.floor(Math.random() * (this.poses.length - 1))
+        const pose = this.poses[index]
+        if (pose) {
+          this.animationHelper.pose(this.mesh, pose)
+        } else {
+          this.mesh.pose()
+        }
+      }
     }
   },
   mounted () {
@@ -59,14 +70,18 @@ export default {
     /**
      * 加载mmd
      */
-
-    this.loader.loadWithAnimation(modelFile, window.vmdUrl, (mmd) => {
-      this.mesh = mmd.mesh
+    this.loader.load(modelFile, (mesh) => {
+      this.mesh = mesh
       this.mesh.position.y = -10
       this.scene.add(this.mesh)
-      this.animationHelper.add(this.mesh, {
-        animation: mmd.animation,
-        physics: true
+
+      /**
+       * 加载所有vpd
+       */
+      vpdFiles.forEach((file) => {
+        this.loader.loadVPD(file, false, (pose) => {
+          this.poses.push(pose)
+        })
       })
     })
   }
