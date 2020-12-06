@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import Vmd from './vmd'
+import Vmd from 'vmd.js'
 
 fetch('/models/mmd/vmds/test.vmd', {
 
