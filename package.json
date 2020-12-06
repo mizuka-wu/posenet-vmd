@@ -11,6 +11,7 @@
     "@tensorflow-models/posenet": "^2.2.1",
     "@tensorflow/tfjs": "^2.7.0",
     "core-js": "^3.6.5",
+    "ejs": "^3.1.5",
     "three": "^0.123.0",
     "vmd.js": "^1.0.1",
     "vue": "^2.6.11"
