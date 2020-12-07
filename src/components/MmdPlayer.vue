@@ -6,18 +6,9 @@
 import * as THREE from 'three'
 import { MMDLoader } from 'three/examples/jsm/loaders/MMDLoader'
 import { MMDAnimationHelper } from 'three/examples/jsm/animation/MMDAnimationHelper.js'
+import { createPose } from '../util'
 
 const modelFile = '/models/mmd/miku/miku_v2.pmd'
-const vpdFiles = [
-  'models/mmd/vpds/01.vpd',
-  'models/mmd/vpds/02.vpd',
-  'models/mmd/vpds/03.vpd',
-  'models/mmd/vpds/04.vpd',
-  'models/mmd/vpds/05.vpd',
-  'models/mmd/vpds/06.vpd',
-  'models/mmd/vpds/07.vpd',
-  'models/mmd/vpds/10.vpd'
-]
 
 const clock = new THREE.Clock()
 
@@ -30,7 +21,7 @@ export default {
       mesh: null,
       loader: null,
       animationHelper: null,
-      poses: []
+      pose: createPose()
     }
   },
   methods: {
@@ -41,14 +32,8 @@ export default {
       this.loadPose()
     },
     loadPose () {
-      if (this.poses.length > 0) {
-        const index = Math.floor(Math.random() * (this.poses.length - 1))
-        const pose = this.poses[index]
-        if (pose) {
-          this.animationHelper.pose(this.mesh, pose)
-        } else {
-          this.mesh.pose()
-        }
+      if (this.mesh) {
+        this.animationHelper.pose(this.mesh, this.pose)
       }
     }
   },
@@ -74,15 +59,6 @@ export default {
       this.mesh = mesh
       this.mesh.position.y = -10
       this.scene.add(this.mesh)
-
-      /**
-       * 加载所有vpd
-       */
-      vpdFiles.forEach((file) => {
-        this.loader.loadVPD(file, false, (pose) => {
-          this.poses.push(pose)
-        })
-      })
     })
   }
 }
